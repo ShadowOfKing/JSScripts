@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         BlockFicBookSlash
-// @namespace    https://ficbook.net/authors/1230880
+// @namespace    https://github.com/ShadowOfKing/JSScripts/
 // @version      1.0
 // @description  Скрывает на сайте фанфики, у которых в жанре стоит слэш.
 // @author       Wilat Collany
