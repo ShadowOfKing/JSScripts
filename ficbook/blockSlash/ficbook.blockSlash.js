@@ -34,7 +34,7 @@ var blocks = {
                 "parent": "article, .festival-thumb"
             },
             {
-                "selector": ".direction-efmslash",
+                "selector": ".direction-femslash",
                 "parent": "#main"
             }
         ],
