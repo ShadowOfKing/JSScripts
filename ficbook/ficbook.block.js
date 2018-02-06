@@ -6,8 +6,8 @@
 // @author       Wilat Collany
 // @match        https://ficbook.net/*
 // @grant        none
-// @updateURL    https://github.com/ShadowOfKing/JSScripts/blob/master/ficbook/blockSlash/ficbook.blockSlash.js
-// @downloadURL  https://github.com/ShadowOfKing/JSScripts/blob/master/ficbook/blockSlash/ficbook.blockSlash.js
+// @updateURL    https://github.com/ShadowOfKing/JSScripts/blob/master/ficbook/ficbook.block.js
+// @downloadURL  https://github.com/ShadowOfKing/JSScripts/blob/master/ficbook/ficbook.block.js
 // ==/UserScript==
 
 var blocks = {
