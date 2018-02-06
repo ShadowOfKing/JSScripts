@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         BlockFicBook
+// @name         ficbook.block
 // @namespace    https://github.com/ShadowOfKing/JSScripts/
 // @version      1.1
 // @description  Скрывает на сайте фанфики, у которых в жанре стоит слэш.
