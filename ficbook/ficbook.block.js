@@ -2,7 +2,7 @@
 // @name         ficbook.block
 // @namespace    https://github.com/ShadowOfKing/JSScripts/
 // @version      1.2
-// @description  Скрывает на сайте фанфики, у которых в жанре стоит слэш.
+// @description  Скрывает на сайте элементы, которые чем-то не угодили. Например фанфики, со слэшем, фэмслэшем, с нелюбимыми жанрами... Или рекламу.
 // @author       Wilat Collany
 // @match        https://ficbook.net/*
 // @grant        none
