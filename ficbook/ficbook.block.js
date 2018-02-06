@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ficbook.block
 // @namespace    https://github.com/ShadowOfKing/JSScripts/
-// @version      1.1
+// @version      1.2
 // @description  Скрывает на сайте фанфики, у которых в жанре стоит слэш.
 // @author       Wilat Collany
 // @match        https://ficbook.net/*
