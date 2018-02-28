@@ -20,7 +20,7 @@ var blocks = {
             },
             {
                 "selector": ".direction-slash",
-                "parent": "#main"
+                "parent": "main, #main"
             }
         ],
         "message": "Тут был слэш",
@@ -35,7 +35,7 @@ var blocks = {
             },
             {
                 "selector": ".direction-femslash",
-                "parent": "#main"
+                "parent": "main, #main"
             }
         ],
         "message": "Тут был фемслэш",
@@ -45,8 +45,8 @@ var blocks = {
         "constraints":
         [
             {
-                "selector": "yatag",
-                "parent": "div"
+                "selector": "yatag, .rkl-banner > a",
+                "parent": "div, main, #main"
             },
         ],
         "message": "Тут была реклама",
@@ -65,7 +65,7 @@ var blocks = {
         [
             {
                 "selector": ".disliked-parameter-link",
-                "parent": "#main, article"
+                "parent": "main, #main, article"
             },
         ],
         "message": "Тут был нелюбимый жанр",
