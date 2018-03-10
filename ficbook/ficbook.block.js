@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ficbook.block
 // @namespace    https://github.com/ShadowOfKing/JSScripts/
-// @version      1.3
+// @version      1.4
 // @description  Скрывает на сайте элементы, которые чем-то не угодили. Например фанфики, со слэшем, фэмслэшем, с нелюбимыми жанрами... Или рекламу.
 // @author       Wilat Collany
 // @match        https://ficbook.net/*
@@ -58,13 +58,13 @@ var blocks = {
             "background-color": "#4d2917",
             "color": "#f6ecda",
         },
-        "saveContent": true
+        "saveContent": true,
     },
     "genres": {
         "constraints":
         [
             {
-                "selector": ".disliked-parameter-link",
+                "selector": "article .disliked-parameter-link",
                 "parent": "main, #main, article"
             },
         ],
@@ -74,8 +74,25 @@ var blocks = {
             "background-color": "#2c1a14",
             "color": "#dd3131",
         },
-        "saveContent": true
+        "saveContent": true,
     },
+    "authors": {
+        "constraints": [
+            {
+                "selector": "article.block .description ul li a",
+                "parent": "article.block",
+                "text": [
+                ]
+            }
+        ],
+        "message": "Здесь был нелюбимый автор",
+        "block": true,
+        "css": {
+            "background-color": "black",
+            "color": "white;"
+        },
+        "saveContent": true
+    }
 };
 
 
@@ -90,42 +107,49 @@ function blockElement(el) {
             for (var i = 0; i < el.constraints.length; i++) {
                 var con = el.constraints[i];
                 var $selector = $(con.selector);
+                var count = con.text ? con.text.length : 1;
                 $selector.each(function() {
                     if ($(this).parents('.blockedContent').length > 0) {
                         return;
                     }
-                    var $parent = $(this).parents(con.parent).first();
-                    $parent.wrap("<div></div>");
-                    $parent = $parent.parent();
-                    var css = "";
-                    if (el.css != null) {
-                        css = 'style="';
-                        for (var j in el.css) {
-                            css += j + ': ' + el.css[j] + ';';
+                    for (var ii = 0; ii < count; ii++) {
+                        var text = con.text && con.text.length > 0 ? con.text[ii].trim().toLowerCase() : "";
+                        if (text == "" || text == $(this).text().trim().toLowerCase()) {
+                            console.log("<<" + ii + " " + text + " ! " + $(this).text() + ">>");
+                            var $parent = $(this).parents(con.parent).first();
+                            $parent.wrap("<div></div>");
+                            $parent = $parent.parent();
+                            var css = "";
+                            if (el.css != null) {
+                                css = 'style="';
+                                for (var j in el.css) {
+                                    css += j + ': ' + el.css[j] + ';';
+                                }
+                                css += '"';
+                            }
+                            if (saveContent) {
+                                $parent.html("<div style='display: none;' class='blockedContent'>" + $parent.html() + "</div>");
+                                $parent.append('<div class="openBlockedContent">Показать скрытый контент</div>');
+                                $parent.css('position', 'relative');
+                                $parent.children('.openBlockedContent').click(function(e) {
+                                    $(this).hide();
+                                    var $el = $(this).parent().slideUp(500);
+                                    setTimeout(function() {
+                                        $el.children('.BlockContent').hide();
+                                        $el.children('.blockedContent').show();
+                                        $el.slideDown(500);
+                                    }, 500);
+                                });
+                            } else {
+                                $parent.html("<span></span>");
+                            }
+                            $parent.children().last().before("<div class='BlockContent'" + css + ">" + message + "</div>");
+                            $parent.children('.BlockContent').click(function(e) {
+                                $(this).addClass('closed');
+                                $(this).parent().slideUp(500);
+                            });
                         }
-                        css += '"';
                     }
-                    if (saveContent) {
-                        $parent.html("<div style='display: none;' class='blockedContent'>" + $parent.html() + "</div>");
-                        $parent.append('<div class="openBlockedContent">Показать скрытый контент</div>');
-                        $parent.css('position', 'relative');
-                    } else {
-                        $parent.html("<span></span>");
-                    }
-                    $parent.children().last().before("<div class='BlockContent'" + css + ">" + message + "</div>");
-                    $parent.children('.BlockContent').click(function(e) {
-                        $(this).addClass('closed');
-                        $(this).parent().slideUp(500);
-                    });
-                    $parent.children('.openBlockedContent').click(function(e) {
-                        $(this).hide();
-                        var $el = $(this).parent().slideUp(500);
-                        setTimeout(function() {
-                            $el.children('.BlockContent').hide();
-                            $el.children('.blockedContent').show();
-                            $el.slideDown(500);
-                        }, 500);
-                    });
                 });
             }
         }, delay);
