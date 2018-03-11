@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ficbook.block
 // @namespace    https://github.com/ShadowOfKing/JSScripts/
-// @version      1.5
+// @version      1.6
 // @description  Скрывает на сайте элементы, которые чем-то не угодили. Например фанфики, со слэшем, фэмслэшем, с нелюбимыми жанрами... Или рекламу.
 // @author       Wilat Collany
 // @match        https://ficbook.net/*
@@ -11,97 +11,106 @@
 // @exclude      https://ficbook.net/collections/*
 // ==/UserScript==
 
+//Условия блокировки
 var blocks = {
-    "slash": {
-        "constraints":
+    slash: {
+        constraints:
         [
             {
-                "selector": ".icon-slash",
-                "parent": "article, .festival-thumb"
+                selector: ".icon-slash",
+                parent: "article, .festival-thumb",
             },
             {
-                "selector": ".direction-slash",
-                "parent": "main, #main"
+                selector: ".direction-slash",
+                parent: "main, #main",
+            },
+        ],
+        message: "Тут был слэш",
+        block: true,
+    },
+    femslash: {
+        constraints:
+        [
+            {
+                selector: ".icon-femslash",
+                parent: "article, .festival-thumb",
+            },
+            {
+                selector: ".direction-femslash",
+                parent: "main, #main",
             }
         ],
-        "message": "Тут был слэш",
-        "block": true,
+        message: "Тут был фемслэш",
+        block: true,
     },
-    "femslash": {
-        "constraints":
+    ads: {
+        constraints:
         [
             {
-                "selector": ".icon-femslash",
-                "parent": "article, .festival-thumb"
+                selector: "yatag, .rkl-banner > a",
+                parent: "div, main, #main",
             },
             {
-                "selector": ".direction-femslash",
-                "parent": "main, #main"
+                selector: ".adsbygoogle > *",
+                parent: ".adsbygoogle",
+            },
+            {
+                selector: "iframe",
+                parent: "div, section, article",
             }
         ],
-        "message": "Тут был фемслэш",
-        "block": true,
-    },
-    "ads": {
-        "constraints":
-        [
-            {
-                "selector": "yatag, .rkl-banner > a",
-                "parent": "div, main, #main"
-            },
-        ],
-        "message": "Тут была реклама",
-        "block": true,
-        "delay": 500,
-        "repeats": 3,
-        "step": 1000,
-        "css": {
+        message: "Тут была реклама",
+        block: true,
+        delay: 500,
+        repeats: 3,
+        step: 1000,
+        css: {
             "background-color": "#4d2917",
-            "color": "#f6ecda",
+            color: "#f6ecda",
         },
-        "saveContent": true,
+        saveContent: true,
     },
-    "genres": {
-        "constraints":
+    genres: {
+        constraints:
         [
             {
-                "selector": "article .disliked-parameter-link",
-                "parent": "main, #main, article"
+                selector: "article .disliked-parameter-link",
+                parent: "main, #main, article",
             },
         ],
-        "message": "Тут был нелюбимый жанр",
-        "block": true,
-        "css": {
+        message: "Тут был нелюбимый жанр",
+        block: true,
+        css: {
             "background-color": "#2c1a14",
-            "color": "#dd3131",
+            color: "#dd3131",
         },
-        "saveContent": true,
+        saveContent: true,
     },
-    "authors": {
-        "constraints": [
+    authors: {
+        constraints: [
             {
-                "selector": "article.block .description ul li a",
-                "parent": "article.block",
-                "text": [
+                selector: "article.block .description ul li a",
+                parent: "article.block",
+                text: [
                     "volhve",
                     "ЗуРир",
                     "Ошибка гендерного Развития",
                     "sanika_263",
-                    "Alatar"
+                    "Alatar",
                 ]
             }
         ],
-        "message": "Здесь был нелюбимый автор",
-        "block": true,
-        "css": {
+        message: "Здесь был нелюбимый автор",
+        block: true,
+        css: {
             "background-color": "black",
-            "color": "white;"
+            color: "white;"
         },
-        "saveContent": true
+        saveContent: true
     }
 };
 
-
+//Функция блокировки
 function blockElement(el) {
     var message = el.message;
     var delay = el.delay == null ? 1 : el.delay;
@@ -121,8 +130,11 @@ function blockElement(el) {
                     for (var ii = 0; ii < count; ii++) {
                         var text = con.text && con.text.length > 0 ? con.text[ii].trim().toLowerCase() : "";
                         if (text == "" || text == $(this).text().trim().toLowerCase()) {
-                            console.log("<<" + ii + " " + text + " ! " + $(this).text() + ">>");
                             var $parent = $(this).parents(con.parent).first();
+                            if (el.hide == true) {
+                                $parent.remove();
+                                return;
+                            }
                             $parent.wrap("<div></div>");
                             $parent = $parent.parent();
                             var css = "";
@@ -152,7 +164,11 @@ function blockElement(el) {
                             $parent.children().last().before("<div class='BlockContent'" + css + ">" + message + "</div>");
                             $parent.children('.BlockContent').click(function(e) {
                                 $(this).addClass('closed');
-                                $(this).parent().slideUp(500);
+                                var $par = $(this).parent();
+                                $par.slideUp(500);
+                                setTimeout(function() {
+                                    $par.remove();
+                                }, 600);
                             });
                         }
                     }
@@ -163,6 +179,7 @@ function blockElement(el) {
     }
 }
 
+//Добавление стилей для заблокированного элемента
 function addStyles() {
     var styleEl = document.createElement('style');
     document.head.appendChild(styleEl);
@@ -174,6 +191,7 @@ function addStyles() {
     styleSheet.insertRule(".openBlockedContent:hover {opacity: 1.7; background-color: #fafafa; color: #121517;}", styleSheet.cssRules.length);
 }
 
+//Запуск после загрузки документа
 (function() {
     'use strict';
     addStyles();
