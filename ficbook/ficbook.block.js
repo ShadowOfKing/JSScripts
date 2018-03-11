@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         ficbook.block
 // @namespace    https://github.com/ShadowOfKing/JSScripts/
-// @version      1.4
+// @version      1.5
 // @description  Скрывает на сайте элементы, которые чем-то не угодили. Например фанфики, со слэшем, фэмслэшем, с нелюбимыми жанрами... Или рекламу.
 // @author       Wilat Collany
 // @match        https://ficbook.net/*
 // @grant        none
 // @updateURL    https://raw.githubusercontent.com/ShadowOfKing/JSScripts/master/ficbook/ficbook.block.js
 // @downloadURL  https://raw.githubusercontent.com/ShadowOfKing/JSScripts/master/ficbook/ficbook.block.js
+// @exclude      https://ficbook.net/collections/*
 // ==/UserScript==
 
 var blocks = {
@@ -82,6 +83,11 @@ var blocks = {
                 "selector": "article.block .description ul li a",
                 "parent": "article.block",
                 "text": [
+                    "volhve",
+                    "ЗуРир",
+                    "Ошибка гендерного Развития",
+                    "sanika_263",
+                    "Alatar"
                 ]
             }
         ],
