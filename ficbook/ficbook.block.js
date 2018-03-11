@@ -1,14 +1,13 @@
 // ==UserScript==
 // @name         ficbook.block
 // @namespace    https://github.com/ShadowOfKing/JSScripts/
-// @version      1.6
+// @version      1.6.1
 // @description  Скрывает на сайте элементы, которые чем-то не угодили. Например фанфики, со слэшем, фэмслэшем, с нелюбимыми жанрами... Или рекламу.
 // @author       Wilat Collany
 // @match        https://ficbook.net/*
 // @grant        none
 // @updateURL    https://raw.githubusercontent.com/ShadowOfKing/JSScripts/master/ficbook/ficbook.block.js
 // @downloadURL  https://raw.githubusercontent.com/ShadowOfKing/JSScripts/master/ficbook/ficbook.block.js
-// @exclude      https://ficbook.net/collections/*
 // ==/UserScript==
 
 //Условия блокировки
@@ -48,22 +47,18 @@ var blocks = {
         [
             {
                 selector: "yatag, .rkl-banner > a",
-                parent: "div, main, #main",
+                parent: "div, main, #main, body",
             },
             {
                 selector: ".adsbygoogle > *",
                 parent: ".adsbygoogle",
             },
-            {
-                selector: "iframe",
-                parent: "div, section, article",
-            }
         ],
         message: "Тут была реклама",
         block: true,
-        delay: 500,
-        repeats: 3,
-        step: 1000,
+        delay: 0,
+        repeats: 10,
+        step: 500,
         css: {
             "background-color": "#4d2917",
             color: "#f6ecda",
