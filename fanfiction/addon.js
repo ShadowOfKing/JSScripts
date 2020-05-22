@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         fanfiction.addon
 // @namespace    https://github.com/ShadowOfKing/JSScripts/
-// @version      1.3
+// @version      1.3.1
 // @description  Добавляет выделение текста в фанфиках, а также изменяет гамму сайта.
 // @author       Wilat Collany
 // @include      https://fanfiction.net/*
@@ -86,8 +86,8 @@ const changeColors = () => {
     }
 
     #content_wrapper_inner {
-      border-left-width: 40px; 
-      border-right-width: 40px; 
+      border-left-width: 40px;
+      border-right-width: 40px;
       padding: 10px 5px 0 5px!important;
     }
 
@@ -102,7 +102,7 @@ const changeColors = () => {
     #top {
       background-color: ${par.indentBGColor}!important;
     }
-    
+
     .zmenu {
       width: calc(100% - 80px)!important;
       border-left: 40px solid ${par.indentBGColor}!important;
@@ -125,15 +125,15 @@ const changeColors = () => {
   if (par.normaliseIndent == true) {
     css += `
     #content_wrapper {
-      width: 100%; 
+      width: 100%;
       padding-left: 0px!important;
       padding-right: 0px!important;
     }
 
     #p_footer {
-      width: 100%!important; 
-      max-width: none!important; 
-      padding: 1em 40px!important; 
+      width: 100%!important;
+      max-width: none!important;
+      padding: 1em 40px!important;
       color: white;
     }`
   }
