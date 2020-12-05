@@ -18,19 +18,24 @@ const siteUrl = 'https://ficbook.net'
 const relativePageUrl = '/away?'
 const fullPageUrl = `${siteUrl}${relativePageUrl}`
 const replacedLinkClassName = 'WilatCssSriptsFicbookRemoveUrlRedirect'
+const relText = 'nofollow'
+;
 
 (() => {
   'use strict'
-  setInterval(() => 
+  setInterval(() =>
     Array
       .from(document.getElementsByTagName('a'))
       .filter(a => {
         const href = a.href || ''
-        return !a.classList.contains(replacedLinkClassName) 
+        return !a.classList.contains(replacedLinkClassName)
           && (href.startsWith(fullPageUrl) || href.startsWith(relativePageUrl))
           && (a.text || '').trim().startsWith('http')
       }).forEach(a => {
         a.href = a.text.trim()
         a.classList.add(replacedLinkClassName)
+        if (a.rel.trim().toLowerCase() == relText) {
+            a.removeAttribute('rel')
+        }
       }), linksCheckInterval);
 })()
