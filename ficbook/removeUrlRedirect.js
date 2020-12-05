@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         fanfiction.addon
+// @name         ficbook.removeUrlRedirect
 // @namespace    https://github.com/ShadowOfKing/JSScripts/
 // @version      1.0.0
 // @description  Удаляет переадресацию на страницу "Вы уверены, что хотите перейти по ссылки?"
