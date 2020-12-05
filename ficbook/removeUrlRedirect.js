@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ficbook.removeUrlRedirect
 // @namespace    https://github.com/ShadowOfKing/JSScripts/
-// @version      1.0.0
+// @version      1.0.1
 // @description  Удаляет переадресацию на страницу "Вы уверены, что хотите перейти по ссылки?"
 // @author       Wilat Collany
 // @include      https://ficbook.net/*
@@ -33,6 +33,7 @@ const relText = 'nofollow'
           && (a.text || '').trim().startsWith('http')
       }).forEach(a => {
         a.href = a.text.trim()
+        a.target = '_blank'
         a.classList.add(replacedLinkClassName)
         if (a.rel.trim().toLowerCase() == relText) {
             a.removeAttribute('rel')
